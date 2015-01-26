@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">후앰아이</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="start_poll_service">Service Start</string>
+    <string name="stop_poll_service">Service Stop</string>
+    <string name="title_service">Poll Service</string>
+	<string name="delete_app">삭제</string>
+	<string name="static_what">무엇을</string>
+	<string name="what">뭐하니</string>
+	<string name="static_when">언제</string>
+	<string name="when">언제야</string>
+	<string name="static_where">어디서</string>
+	<string name="where">여기 어디</string>
+	
+	<string name="button_prev">이전</string>
+	<string name="button_next">다음</string>
+	<string name="text_sun">일</string>
+	<string name="text_mon">월</string>
+	<string name="text_tue">화</string>
+	<string name="text_wed">수</string>
+	<string name="text_thu">목</string>
+	<string name="text_fri">금</string>
+	<string name="text_sat">토</string>
+</resources>

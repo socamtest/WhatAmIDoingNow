@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.whoami"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+    
+    <uses-permission
+        android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+     <uses-permission
+        android:name="android.permission.ACCESS_WIFE_STATE" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"/>
+     <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"/>
+     <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+     <uses-permission
+         android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+     <uses-feature android:required="true"
+         android:name="android.hardware.location.gps"/>
+     <uses-feature android:required="true"
+         android:glEsVersion="0x00020000"/>
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+        	android:name=".CalendarActivity"
+        	android:label="@string/app_name" >
+        	 <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".FrameContainerActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/app_name">
+        </activity>
+        
+        <service 
+            android:name=".PollService">
+        </service>
+        
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDWOofpZYKXAOXf1XEwLN7ZmRWuvoSZUG0"/>
+        
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        
+        </application>
+
+</manifest>

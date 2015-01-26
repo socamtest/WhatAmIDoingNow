@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:id="@+id/icon_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
+    
+    <TextView
+        android:id="@+id/staticTitle_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/static_what"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"/>  
+    <TextView
+        android:id="@+id/appTitle_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/what"
+        android:layout_toRightOf="@id/staticTitle_textView"/>
+    
+    <TextView
+        android:id="@+id/staticStartDate_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/static_when"
+        android:textStyle="bold"
+        android:layout_below="@id/staticTitle_textView"
+        android:layout_alignParentLeft="true"/>
+    <TextView
+        android:id="@+id/startDate_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/when"
+        android:layout_below="@id/appTitle_textView"
+        android:layout_toRightOf="@id/staticStartDate_textView"/>
+    
+    <TextView
+        android:id="@+id/staticWhere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/static_where"
+        android:textStyle="bold"
+        android:layout_below="@id/staticStartDate_textView"
+        android:layout_alignParentLeft="true"/>
+    <TextView
+        android:id="@+id/where_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/where"
+         android:layout_below="@id/startDate_textView"
+        android:layout_toRightOf="@id/staticWhere"/>
+    
+</RelativeLayout>

@@ -97,7 +97,7 @@ int drawable ic_plusone_standard_off_client 0x7f02001d
 int drawable ic_plusone_tall_off_client 0x7f02001e
 int drawable powered_by_google_dark 0x7f02001f
 int drawable powered_by_google_light 0x7f020020
-int id action_settings 0x7f070028
+int id action_settings 0x7f070027
 int id adjust_height 0x7f070002
 int id adjust_width 0x7f070001
 int id appTitle_textView 0x7f07001a
@@ -119,7 +119,6 @@ int id map 0x7f070023
 int id match_parent 0x7f07000e
 int id menu_item_delete_app 0x7f070025
 int id menu_item_toggle_polling 0x7f070026
-int id menu_item_toggle_save 0x7f070027
 int id monochrome 0x7f070016
 int id next_button 0x7f070021
 int id none 0x7f070000

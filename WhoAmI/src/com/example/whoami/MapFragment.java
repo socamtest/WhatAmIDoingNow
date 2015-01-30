@@ -154,13 +154,14 @@ public class MapFragment extends SupportMapFragment {
 				    		MarkerOptions marker = new MarkerOptions();
 							
 							//주소구하기
-							String addr = GPSManager.get(mContext).getAddressFromLocation(a.getAppPos().getLatitude(), a.getAppPos().getLongitude());
+							//String addr = GPSManager.get(mContext).getAddressFromLocation(a.getAppPos().getLatitude(), a.getAppPos().getLongitude());
+							String addr = a.getAddr();
 							
 							// 마커설정
 							// TODO: 일정거리안에 있는 데이터는 하나의 마커로 설정하고
 							marker.position(pos);
 							marker.title(addr);
-							marker.snippet(a.getStartDate());
+							marker.snippet(a.getUsingTime()+a.getAppName(mContext));
 							
 							mGoogleMap.addMarker(marker).showInfoWindow();
 				    	}

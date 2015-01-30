@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -40,6 +39,7 @@ public class AppListFragment extends ListFragment {
 	private String mUsingDay;
 	
 	public static AppListFragment newInstance(String usingDay){
+		Log.i(TAG, "newInstance");
 		Bundle args = new Bundle();
 		args.putSerializable(ARG_APP_USING_DAY, usingDay);
 		AppListFragment fragment = new AppListFragment();
@@ -51,6 +51,7 @@ public class AppListFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i(TAG, "onCreateView");
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 		ListView listView = (ListView)v.findViewById(android.R.id.list);
 		registerForContextMenu(listView);
@@ -60,12 +61,13 @@ public class AppListFragment extends ListFragment {
 	
 	@Override
 	public void onPause() {
+		Log.i(TAG, "onPause");
 		super.onPause();
-		//AppList.get(mContext).saveApps();
 	}
 
 	@Override
 	public void onResume() {
+		Log.i(TAG, "onResume");
 		// TODO Auto-generated method stub
 		super.onResume();
 		Log.i(TAG, "AppListFragment onresume()");
@@ -74,8 +76,8 @@ public class AppListFragment extends ListFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 		
 		mPollService = new PollService(mContext);
 		
@@ -94,20 +96,17 @@ public class AppListFragment extends ListFragment {
 			mApps = new ArrayList<App>();
 		}
 		
-		// TODO: 
-		//main ui에서 리스트뷰 갱신 안하면 error(런타임 오류 발생)
-		//mApps = AppList.get(mContext).getApps();
 		ArrayAdapter<App> adapter = new AppAdapter(mApps);
 		setListAdapter(adapter);
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		Log.i(TAG, "onListItemClick");
 		try{
 			App app = (App)(getListAdapter()).getItem(position);
 			
 			// 맵 프레그먼트 실행
-			
 			Intent i = new Intent(getActivity(), MapActivity.class);
 			i.putExtra(MapFragment.ARG_APP_ID, app.getUId());
 			startActivity(i);
@@ -119,87 +118,103 @@ public class AppListFragment extends ListFragment {
 	private class AppAdapter extends ArrayAdapter<App>{
 		public AppAdapter(ArrayList<App> apps){
 			super(getActivity(), 0, apps);
+			Log.i(TAG, "AppAdapter constructor");
 		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			Log.i(TAG, "getView");
+			ImageView iconImageView;
+			TextView titleTextView, startDateTextView, whereTextView;
+			
+			// 뷰홀더
+			AppViewHolder viewHolder;
 			
 			if(convertView == null){
-				convertView = getActivity().getLayoutInflater().inflate(R.layout.fragment_app_list, null);
+				convertView = getActivity().getLayoutInflater().inflate(R.layout.fragment_app_list, parent, false);
+				// 앱 아이콘
+				iconImageView = (ImageView)convertView.findViewById(R.id.icon_imageView);
+				
+				// 앱 이름
+				titleTextView = (TextView)convertView.findViewById(R.id.appTitle_textView);
+				
+				// 앱 사용 시간
+				startDateTextView = (TextView)convertView.findViewById(R.id.startDate_textView);
+				
+				// 앱 사용 위치
+				whereTextView = (TextView)convertView.findViewById(R.id.where_textView);
+				
+				viewHolder = new AppViewHolder(iconImageView, titleTextView, 
+						startDateTextView, whereTextView);
+				
+				convertView.setTag(viewHolder);
+				
+			}else{
+				viewHolder = (AppViewHolder)convertView.getTag();
 			}
 			
-			App a = getItem(position);
-			ImageView iconImageView = (ImageView)convertView.findViewById(R.id.icon_imageView);
-			try{
-				// 앱 아이콘 가져오기
-				PackageManager pm = getActivity().getPackageManager();
-				Drawable icon = pm.getApplicationIcon(a.getTitle());
-				iconImageView.setImageDrawable(icon);
+			viewHolder.icon.setImageDrawable(getItem(position).getAppIcon(mContext));
+			viewHolder.title.setText(getItem(position).getAppName(mContext));
+			viewHolder.time.setText(getItem(position).getStartDate());
+			viewHolder.position.setText(getItem(position).getAddr());
 				
-				TextView titleTextView = (TextView)convertView.findViewById(R.id.appTitle_textView);
-				titleTextView.setText(a.getTitle());
-				
-				TextView startDateTextView = (TextView)convertView.findViewById(R.id.startDate_textView);
-				startDateTextView.setText(a.getStartDate());
-				
-				TextView whatTextView = (TextView)convertView.findViewById(R.id.where_textView);
-				whatTextView.setText(getAddress(a.getAppPos().getLatitude(), a.getAppPos().getLongitude()));
-				
-			}catch(Exception e){
-				Log.e(TAG, "AppListFragment AppAdapter getView() fail " + e.toString());
-			}
 			return convertView;
+		}
+
+		@Override
+		public int getCount() {
+			Log.i(TAG, "getCount");
+			// TODO Auto-generated method stub
+			return mApps.size();
+		}
+
+		@Override
+		public App getItem(int position) {
+			Log.i(TAG, "getItem");
+			// TODO Auto-generated method stub
+			return mApps.get(position);
+		}
+	}
+	
+	// 뷰홀더 클래스
+	public static class AppViewHolder{
+		public ImageView icon;
+		public TextView title;
+		public TextView time;
+		public TextView position;
+		
+		public AppViewHolder(ImageView icon, TextView title, TextView time, TextView position){
+			this.icon = icon;
+			this.title = title;
+			this.time = time;
+			this.position = position;
 		}
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
+		Log.i(TAG, "onAttach");
 		super.onAttach(activity);
 		mContext = activity;
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		Log.i(TAG, "onCreateOptionsMenu");
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.fragment_apps, menu);
-	}
-
-	// 서비스 설정(On/Off), 파일 저장
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == R.id.menu_item_toggle_polling){
-			boolean shoudStartAlarm = !mPollService.isServiceAlarmOn(getActivity());
-			mPollService.setServiceAlarm(getActivity(), shoudStartAlarm);
-			getActivity().invalidateOptionsMenu();
-			return true;
-		}else if(item.getItemId() == R.id.menu_item_toggle_save){
-			AppList.get(mContext).saveApps();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		
-		MenuItem toggleItem = menu.findItem(R.id.menu_item_toggle_polling);
-		if(mPollService.isServiceAlarmOn(getActivity())){
-			toggleItem.setTitle(R.string.stop_poll_service);
-		}else{
-			toggleItem.setTitle(R.string.start_poll_service);
-		}
-		MenuItem toggleItem2 = menu.findItem(R.id.menu_item_toggle_save);
-		toggleItem2.setTitle("SAVE");
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
+		Log.i(TAG, "onCreateContextMenu");
 		getActivity().getMenuInflater().inflate(R.menu.app_list_item_context,  menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		Log.i(TAG, "onContextItemSelected");
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
 		int pos = info.position;
 		AppAdapter adapter = (AppAdapter)getListAdapter();
@@ -215,9 +230,5 @@ public class AppListFragment extends ListFragment {
 			}
 		}
 		return super.onContextItemSelected(item);
-	}
-	
-	public String getAddress(double la, double lo){
-		return GPSManager.get(mContext).getAddressFromLocation(la, lo);
 	}
 }

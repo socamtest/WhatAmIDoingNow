@@ -75,6 +75,10 @@ public class PollService extends IntentService {
 		}
 		app.setAppPos(pos);
 		
+		// 주소 구하는 부분 추가
+		// TODO: 성능 이슈 해결
+		app.setAddr(GPSManager.get(mContext).getAddressFromLocation(app.getAppPos().getLatitude(), app.getAppPos().getLongitude()));
+		
 		// 해당리스트 바로 사용하면 오류 발생
 		// UI 관련 로직은 MAIN UI 에서 처리해야함
 		// 우선 MAIN UI에서 파일에서 로드하여 처리(갱신이 한번 늦게 됨)

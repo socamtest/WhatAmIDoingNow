@@ -464,7 +464,7 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020020;
     }
     public static final class id {
-        public static final int action_settings=0x7f070028;
+        public static final int action_settings=0x7f070027;
         public static final int adjust_height=0x7f070002;
         public static final int adjust_width=0x7f070001;
         public static final int appTitle_textView=0x7f07001a;
@@ -486,7 +486,6 @@ containing a value of this type.
         public static final int match_parent=0x7f07000e;
         public static final int menu_item_delete_app=0x7f070025;
         public static final int menu_item_toggle_polling=0x7f070026;
-        public static final int menu_item_toggle_save=0x7f070027;
         public static final int monochrome=0x7f070016;
         public static final int next_button=0x7f070021;
         public static final int none=0x7f070000;

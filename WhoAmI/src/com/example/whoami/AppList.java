@@ -51,7 +51,6 @@ public class AppList {
 	}
 
 	// AppList에 App 추가
-	// TODO: 파일도 바로 갱신해줘야 하나?
 	public boolean addApp(App app){
 		if(true == mApps.add(app))
 			return true;
@@ -59,10 +58,8 @@ public class AppList {
 	}
 	
 	// AppList에 App 삭제
-	// TODO: 파일도 바로 갱신해줘야 하나?
 	public boolean deleteApp(App app){
 		try{
-			// 받아온 app 직접 remove에 주면 제거 안되 왜??
 			for(App a : mApps){
 				if(a.getUId().equals(app.getUId()))
 					mApps.remove(a);

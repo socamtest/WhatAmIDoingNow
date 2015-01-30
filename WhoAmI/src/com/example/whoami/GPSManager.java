@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -43,11 +44,12 @@ public class GPSManager implements LocationListener{
 		Log.i("whoami", "getNetworkLocation start");
 		LocationManager lm = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
 		Location loc;
-		if(null == (loc = getLocationToProvider(lm, LocationManager.GPS_PROVIDER))
-				&& null == (loc = getLocationToProvider(lm, LocationManager.NETWORK_PROVIDER))){
-			return null;
+		
+		if(null != (loc = getLocationToProvider(lm, LocationManager.GPS_PROVIDER))
+				|| null != (loc = getLocationToProvider(lm, LocationManager.NETWORK_PROVIDER))){
+			return loc;
 		}
-		return loc;
+		return null;
 	}
 	
 	// GPS 또는 NETWORK 이용
@@ -97,8 +99,15 @@ public class GPSManager implements LocationListener{
     }
 	
 	@Override
-	public void onLocationChanged(Location arg0) {
+	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
+		if(LocationManager.GPS_PROVIDER == location.getProvider()){
+			
+		}else if(LocationManager.NETWORK_PROVIDER == location.getProvider()){
+			
+		}else if(LocationManager.PASSIVE_PROVIDER == location.getProvider()){
+			
+		}
 		
 	}
 	

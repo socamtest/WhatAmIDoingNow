@@ -49,7 +49,6 @@ public class CalendarFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		//AppList.get(mContext).saveApps();
 	}
 
 	@Override
@@ -127,7 +126,6 @@ public class CalendarFragment extends Fragment {
 		    	//Log.i("calendar", usingDay);
 		    	
 		    	// 선택된 날짜에 대한 데이터 확인
-		    	// TODO: 데이터 확인 로직은 AppListFragment에서 확인 후 없을경우 백 처리
 		    	try{
 			    	AppJSONSerializer serializer = new AppJSONSerializer(getActivity(), AppList.FILENAME);
 			    	ArrayList<App> apps = serializer.loadAppsForDay(usingDay);
@@ -168,9 +166,6 @@ public class CalendarFragment extends Fragment {
     	mGridView.setAdapter(mAdapter);
     }
 	
-	// test
-		// 테스트 하려고 AppListFragment의 옵션 메뉴 코드 그대로 가져옴
-		
 		@Override
 		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 			super.onCreateOptionsMenu(menu, inflater);
@@ -184,9 +179,6 @@ public class CalendarFragment extends Fragment {
 				boolean shoudStartAlarm = !mPollService.isServiceAlarmOn(getActivity());
 				mPollService.setServiceAlarm(getActivity(), shoudStartAlarm);
 				getActivity().invalidateOptionsMenu();
-				return true;
-			}else if(item.getItemId() == R.id.menu_item_toggle_save){
-				AppList.get(mContext).saveApps();
 				return true;
 			}
 			return super.onOptionsItemSelected(item);
@@ -202,7 +194,5 @@ public class CalendarFragment extends Fragment {
 			}else{
 				toggleItem.setTitle(R.string.start_poll_service);
 			}
-			MenuItem toggleItem2 = menu.findItem(R.id.menu_item_toggle_save);
-			toggleItem2.setTitle("SAVE");
 		}
 }

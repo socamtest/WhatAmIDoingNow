@@ -1,20 +1,19 @@
 package com.example.whoami;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.util.SparseArray;
+import android.view.InflateException;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.SeekBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -25,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
  * 앱 사용에 대한 위치정보를 지도에 표시하기 위한 맵 프레그먼트
@@ -36,15 +36,21 @@ public class MapFragment extends SupportMapFragment {
 	
 	private static final String TAG ="WhoAmI.MapFragment";
 	public static final String ARG_APP_ID = "APP_ID";
+	public static final String ARG_APP_USING_DAY = "APP_USING_DAY";
 	private GoogleMap mGoogleMap;
 	private Context mContext;
-	private App mApp;
-	private ArrayList<App> mApps;
-	 
+	//private ArrayList<App> mTodayApps;
+	
+	// 2015.01.31 커스텀맵뷰 추가 추가
+	private View mView;
+	private MapManager mMapManager;
+	
+	private String mSelectedDay;
+	
 	// MapFragment 생성시 선택된 App UUID를 받기위한 함수
-	public static MapFragment newInstance(UUID id){
+	public static MapFragment newInstance(String usingDay){
 		Bundle args = new Bundle();
-		args.putSerializable(ARG_APP_ID, id);
+		args.putSerializable(ARG_APP_USING_DAY, usingDay);
 		
 		MapFragment fragment = new MapFragment();
 		fragment.setArguments(args);
@@ -63,132 +69,48 @@ public class MapFragment extends SupportMapFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		ArrayList<App> mApps;
-		mApps = AppList.get(mContext).getApps();
-		UUID id = (UUID)getArguments().getSerializable(ARG_APP_ID);
-		for(App a : mApps){
-			if(a.getUId().equals(id) == true){
-				mApp = a;
-				break;
-			}
-		}
+		mSelectedDay = (String)getArguments().getSerializable(ARG_APP_USING_DAY);
+		//mTodayApps = AppList.get(mContext).loadOndayApps(mSelectedDay);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = super.onCreateView(inflater, container, savedInstanceState);
 		
-		//mapInit();
-		mapInitForDay(mApp.getUsingDay());
+		mView = super.onCreateView(inflater, container, savedInstanceState);
 		
-		return v;
+		/**
+		 * 2015.01.31 커스텀맵뷰 추가 start
+		 */
+		if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+        }
+		try {
+            // Inflate the layout for this fragment.
+			mView = inflater.inflate(R.layout.fragment_map, container, false);
+        } catch (InflateException e) {
+            // Map is already there, just return view as it is.
+        }
+		FragmentManager fmanager = getActivity().getSupportFragmentManager();
+		mGoogleMap = ( (SupportMapFragment) fmanager.findFragmentById(R.id.map)).getMap();
+		/**
+		 * 2015.01.31 커스텀맵뷰 추가 end
+		 * mGoogleMap = getMap(); // 커스텀 맵뷰 사용안할 경우에 이용
+		 */
+		
+		// 맵 설정
+		mMapManager = new MapManager(mContext, mGoogleMap, mSelectedDay);
+		if(true == mMapManager.enableGooglePlay()){
+			mMapManager.init();
+			mMapManager.draw();
+		}
+		
+		return mView;
 	}
 	
-	// 구글맵 설정(마커 등)
-	public void mapInit(){
-		
-		try{
-			// 구글 서비스 플레이 사용 가능 여부 확인
-			int enableGooglePlay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
-			if(ConnectionResult.SUCCESS == enableGooglePlay){
-				mGoogleMap = getMap();
-				// 현재 위치 표시
-				mGoogleMap.setMyLocationEnabled(true);
-				
-				// TODO: 데이터가 가진 위치 표시
-				LatLng pos = new LatLng(mApp.getAppPos().getLatitude(), mApp.getAppPos().getLongitude());
-
-				mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 15));
-				
-				MarkerOptions marker = new MarkerOptions();
-				
-				//주소구하기
-				String addr = GPSManager.get(mContext).getAddressFromLocation(mApp.getAppPos().getLatitude(), mApp.getAppPos().getLongitude());
-				
-				// 마커설정
-				// TODO: 일정거리안에 있는 데이터는 하나의 마커로 설정하고 
-				marker.position(pos);
-				marker.title("주소");
-				marker.snippet(addr);
-				
-				mGoogleMap.addMarker(marker).showInfoWindow();
-				
-				// 마커클릭리스너
-				// TODO: 실제 데이터 보여주는 부분?
-				mGoogleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-					
-					@Override
-					public boolean onMarkerClick(Marker arg0) {
-						
-						return false;
-					}
-				});
-			}
-		}catch(NullPointerException e){
-			Log.e(TAG, "MapFragment mapInit() fail");
-		}
-	}
-	
-	// test
-	// 선택된 날짜에 대한 위치를 가져와서 표시함
-	public void mapInitForDay(String day){
-		try{
-			// 구글 서비스 플레이 사용 가능 여부 확인
-			int enableGooglePlay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
-			if(ConnectionResult.SUCCESS == enableGooglePlay){
-				mGoogleMap = getMap();
-				// 현재 위치 표시
-				mGoogleMap.setMyLocationEnabled(true);
-				
-				// 해당 날짜에 대한 정보
-				if(null != mApp.getUsingDay() && mApp.getUsingDay().equals(day)){
-					try{
-				    	AppJSONSerializer serializer = new AppJSONSerializer(getActivity(), AppList.FILENAME);
-				    	mApps = serializer.loadAppsForDay(day);
-				    	
-				    	LatLng pos = new LatLng(0,0);
-				    	for(App a : mApps){
-				    		pos = new LatLng(a.getAppPos().getLatitude(), a.getAppPos().getLongitude());
-				    		
-				    		MarkerOptions marker = new MarkerOptions();
-							
-							//주소구하기
-							//String addr = GPSManager.get(mContext).getAddressFromLocation(a.getAppPos().getLatitude(), a.getAppPos().getLongitude());
-							String addr = a.getAddr();
-							
-							// 마커설정
-							// TODO: 일정거리안에 있는 데이터는 하나의 마커로 설정하고
-							marker.position(pos);
-							marker.title(addr);
-							marker.snippet(a.getUsingTime()+a.getAppName(mContext));
-							
-							mGoogleMap.addMarker(marker).showInfoWindow();
-				    	}
-				    	//마지막 위치로 카메라 이동
-				    	mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 15));
-				    	
-				    	// 마커클릭리스너
-						// TODO: 실제 데이터 보여주는 부분?
-						mGoogleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-							
-							@Override
-							public boolean onMarkerClick(Marker arg0) {
-								
-								return false;
-							}
-						});
-				    	
-			    	}catch(Exception e){
-			    		
-			    	}
-				}
-			}
-		}catch(NullPointerException e){
-			Log.e(TAG, "MapFragment mapInit() fail");
-		}
-	}
-
 	@Override
 	public void onPause() {
 		super.onPause();

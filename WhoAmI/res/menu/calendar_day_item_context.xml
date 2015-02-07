@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item 
+        android:id="@+id/day_map_menuItem"
+        android:title="@string/display_map"/>
+    
+    <item 
+        android:id="@+id/day_momentMarkList_menuItem"
+        android:title="@string/display_momentMarkList"/>
+    
+    <item 
+        android:id="@+id/day_appList_menuItem"
+        android:title="@string/display_dayAppList"/>
+
+</menu>

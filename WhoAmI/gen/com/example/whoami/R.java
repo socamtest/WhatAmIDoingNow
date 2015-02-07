@@ -455,70 +455,111 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020017;
         public static final int common_signin_btn_text_pressed_dark=0x7f020018;
         public static final int common_signin_btn_text_pressed_light=0x7f020019;
-        public static final int ic_launcher=0x7f02001a;
-        public static final int ic_plusone_medium_off_client=0x7f02001b;
-        public static final int ic_plusone_small_off_client=0x7f02001c;
-        public static final int ic_plusone_standard_off_client=0x7f02001d;
-        public static final int ic_plusone_tall_off_client=0x7f02001e;
-        public static final int powered_by_google_dark=0x7f02001f;
-        public static final int powered_by_google_light=0x7f020020;
+        public static final int footprint=0x7f02001a;
+        public static final int footprint_smaller=0x7f02001b;
+        public static final int footprint_smallest=0x7f02001c;
+        public static final int ic_launcher=0x7f02001d;
+        public static final int ic_plusone_medium_off_client=0x7f02001e;
+        public static final int ic_plusone_small_off_client=0x7f02001f;
+        public static final int ic_plusone_standard_off_client=0x7f020020;
+        public static final int ic_plusone_tall_off_client=0x7f020021;
+        public static final int lifemark_logo_small=0x7f020022;
+        public static final int lineframe=0x7f020023;
+        public static final int lineframe2=0x7f020024;
+        public static final int lineframe_dash=0x7f020025;
+        public static final int logo=0x7f020026;
+        public static final int mark=0x7f020027;
+        public static final int path=0x7f020028;
+        public static final int powered_by_google_dark=0x7f020029;
+        public static final int powered_by_google_light=0x7f02002a;
     }
     public static final class id {
-        public static final int action_settings=0x7f070027;
+        public static final int action_settings=0x7f070040;
         public static final int adjust_height=0x7f070002;
         public static final int adjust_width=0x7f070001;
-        public static final int appTitle_textView=0x7f07001a;
+        public static final int appTitle_textView=0x7f07001d;
         public static final int book_now=0x7f070012;
         public static final int buyButton=0x7f07000c;
         public static final int buy_now=0x7f070011;
         public static final int buy_with_google=0x7f070010;
-        public static final int calendarDate_textView=0x7f070017;
-        public static final int calendar_gridView=0x7f070022;
+        public static final int calendarDate_textView=0x7f070018;
+        public static final int calendar_gridView=0x7f070025;
+        public static final int calendar_progressContainer=0x7f070028;
         public static final int classic=0x7f070014;
+        public static final int day_appList_menuItem=0x7f07003c;
+        public static final int day_map_menuItem=0x7f07003a;
+        public static final int day_momentMarkList_menuItem=0x7f07003b;
         public static final int donate_with_google=0x7f070013;
-        public static final int fragmentContainer=0x7f070024;
+        public static final int fragmentContainer=0x7f070038;
         public static final int grayscale=0x7f070015;
         public static final int holo_dark=0x7f070007;
         public static final int holo_light=0x7f070008;
         public static final int hybrid=0x7f070006;
-        public static final int icon_imageView=0x7f070018;
-        public static final int map=0x7f070023;
+        public static final int icon_imageView=0x7f07001b;
+        public static final int map=0x7f070029;
         public static final int match_parent=0x7f07000e;
-        public static final int menu_item_delete_app=0x7f070025;
-        public static final int menu_item_toggle_polling=0x7f070026;
+        public static final int menu_item_delete_app=0x7f070039;
+        public static final int menu_item_delete_moment=0x7f070041;
+        public static final int menu_item_momentAdd=0x7f07003e;
+        public static final int menu_item_todayRefresh=0x7f07003f;
+        public static final int menu_item_toggle_polling=0x7f07003d;
+        public static final int momentContent_textView=0x7f070031;
+        public static final int momentListContent_textView=0x7f070037;
+        public static final int momentListPic_imageView=0x7f070033;
+        public static final int momentListTag_textView=0x7f070036;
+        public static final int momentListWhen_textView=0x7f070034;
+        public static final int momentListWhere_textView=0x7f070035;
+        public static final int momentPic_imageView=0x7f07002a;
+        public static final int momentSave_button=0x7f070032;
+        public static final int momentTag_textView=0x7f070030;
+        public static final int momentWhen_textView=0x7f07002c;
+        public static final int momentWhere_textView=0x7f07002e;
         public static final int monochrome=0x7f070016;
-        public static final int next_button=0x7f070021;
+        public static final int next_button=0x7f070024;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070003;
-        public static final int prev_button=0x7f07001f;
+        public static final int prev_button=0x7f070022;
         public static final int production=0x7f070009;
         public static final int sandbox=0x7f07000a;
         public static final int satellite=0x7f070004;
         public static final int selectionDetails=0x7f07000d;
-        public static final int startDate_textView=0x7f07001c;
-        public static final int staticStartDate_textView=0x7f07001b;
-        public static final int staticTitle_textView=0x7f070019;
-        public static final int staticWhere=0x7f07001d;
+        public static final int startDate_textView=0x7f07001f;
+        public static final int staticMomentTag_textView=0x7f07002f;
+        public static final int staticMomentWhen_textView=0x7f07002b;
+        public static final int staticMomentWhere_textView=0x7f07002d;
+        public static final int staticStartDate_textView=0x7f07001e;
+        public static final int staticTitle_textView=0x7f07001c;
+        public static final int staticWhere=0x7f070020;
         public static final int strict_sandbox=0x7f07000b;
         public static final int terrain=0x7f070005;
-        public static final int todat_textView=0x7f070020;
-        public static final int where_textView=0x7f07001e;
+        public static final int todat_textView=0x7f070023;
+        public static final int todayIcon_imageView=0x7f07001a;
+        public static final int todayMarkContent_textView=0x7f070026;
+        public static final int todayParhList_textView=0x7f070027;
+        public static final int todayWord_textView=0x7f070019;
+        public static final int top_linearLayout=0x7f070017;
+        public static final int where_textView=0x7f070021;
         public static final int wrap_content=0x7f07000f;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f090000;
     }
     public static final class layout {
-        public static final int calemdar_date_item=0x7f030000;
-        public static final int fragment_app_list=0x7f030001;
-        public static final int fragment_calendar=0x7f030002;
-        public static final int fragment_map=0x7f030003;
-        public static final int frame_container=0x7f030004;
+        public static final int activity_splash=0x7f030000;
+        public static final int calemdar_date_item=0x7f030001;
+        public static final int fragment_app_list=0x7f030002;
+        public static final int fragment_calendar=0x7f030003;
+        public static final int fragment_map=0x7f030004;
+        public static final int fragment_moment=0x7f030005;
+        public static final int fragment_moment_list=0x7f030006;
+        public static final int frame_container=0x7f030007;
     }
     public static final class menu {
         public static final int app_list_item_context=0x7f0b0000;
-        public static final int fragment_apps=0x7f0b0001;
-        public static final int frame_container=0x7f0b0002;
+        public static final int calendar_day_item_context=0x7f0b0001;
+        public static final int fragment_apps=0x7f0b0002;
+        public static final int frame_container=0x7f0b0003;
+        public static final int moment_list_item_context=0x7f0b0004;
     }
     public static final class raw {
         public static final int gtm_analytics=0x7f040000;
@@ -526,9 +567,14 @@ containing a value of this type.
     public static final class string {
         public static final int accept=0x7f060002;
         public static final int action_settings=0x7f060025;
+        public static final int add_mark=0x7f060029;
+        /**  앱관련 
+         */
         public static final int app_name=0x7f060023;
-        public static final int button_next=0x7f060031;
-        public static final int button_prev=0x7f060030;
+        public static final int button_next=0x7f060042;
+        /**  달력관련문자 
+         */
+        public static final int button_prev=0x7f060041;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f060009;
@@ -631,30 +677,58 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f060005;
         public static final int create_calendar_title=0x7f060004;
         public static final int decline=0x7f060003;
-        public static final int delete_app=0x7f060029;
+        public static final int delete_app=0x7f060039;
+        public static final int delete_moment=0x7f06003a;
+        public static final int display_dayAppList=0x7f060038;
+        /**  컨텍스트메뉴관련문자 
+         */
+        public static final int display_map=0x7f060036;
+        public static final int display_momentMarkList=0x7f060037;
         public static final int hello_world=0x7f060024;
+        public static final int input_content=0x7f06003d;
+        public static final int input_picture=0x7f06003e;
+        public static final int input_tag=0x7f060040;
+        public static final int midnightEnd=0x7f060035;
+        public static final int midnightStart=0x7f060033;
+        /**  메모관련문자 
+         */
+        public static final int murmur=0x7f06003b;
+        public static final int noon=0x7f060034;
+        public static final int refresh_today=0x7f06002a;
+        public static final int save=0x7f06003c;
+        /**  시크바관련문자 
+         */
+        public static final int seekbar_time=0x7f060032;
+        /**  옵션메뉴관련문자 
+         */
         public static final int start_poll_service=0x7f060026;
-        public static final int static_what=0x7f06002a;
-        public static final int static_when=0x7f06002c;
-        public static final int static_where=0x7f06002e;
+        public static final int static_content=0x7f06002e;
+        public static final int static_tag=0x7f06003f;
+        public static final int static_todayMarkTitle=0x7f06004a;
+        public static final int static_todayPathTitle=0x7f06004b;
+        /**  앱사용리스트관련문자 
+         */
+        public static final int static_what=0x7f06002b;
+        public static final int static_when=0x7f06002d;
+        public static final int static_where=0x7f060030;
         public static final int stop_poll_service=0x7f060027;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
-        public static final int text_fri=0x7f060037;
-        public static final int text_mon=0x7f060033;
-        public static final int text_sat=0x7f060038;
-        public static final int text_sun=0x7f060032;
-        public static final int text_thu=0x7f060036;
-        public static final int text_tue=0x7f060034;
-        public static final int text_wed=0x7f060035;
+        public static final int text_fri=0x7f060048;
+        public static final int text_mon=0x7f060044;
+        public static final int text_sat=0x7f060049;
+        public static final int text_sun=0x7f060043;
+        public static final int text_thu=0x7f060047;
+        public static final int text_tue=0x7f060045;
+        public static final int text_wed=0x7f060046;
         public static final int title_service=0x7f060028;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
         public static final int wallet_buy_button_place_holder=0x7f060022;
-        public static final int what=0x7f06002b;
-        public static final int when=0x7f06002d;
-        public static final int where=0x7f06002f;
+        public static final int what=0x7f06002c;
+        public static final int when=0x7f06002f;
+        public static final int where=0x7f060031;
     }
     public static final class style {
         /** 

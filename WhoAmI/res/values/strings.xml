@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">후앰아이</string>
+    <!-- 앱관련 -->
+    <string name="app_name">LifeMark</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- 옵션메뉴관련문자 -->
     <string name="start_poll_service">Service Start</string>
     <string name="stop_poll_service">Service Stop</string>
     <string name="title_service">Poll Service</string>
-	<string name="delete_app">삭제</string>
+	<string name="add_mark">흔적남기기</string>
+	<string name="refresh_today">화면갱신</string>
+
+	<!-- 앱사용리스트관련문자 -->	
 	<string name="static_what">무엇을</string>
 	<string name="what">뭐하니</string>
 	<string name="static_when">언제</string>
+	<string name="static_content">내용</string>
 	<string name="when">언제야</string>
 	<string name="static_where">어디서</string>
 	<string name="where">여기 어디</string>
 	
+	<!-- 시크바관련문자 -->
+	<string name="seekbar_time">시간</string>
+	<string name="midnightStart">0시</string>
+	<string name="noon">12시</string>
+	<string name="midnightEnd">24시</string>
+	
+	
+	<!-- 컨텍스트메뉴관련문자 -->
+	<string name="display_map">지도보기</string>
+	<string name="display_momentMarkList">흔적보기</string>
+	<string name="display_dayAppList">사용앱보기</string>
+	<string name="delete_app">선택된 앱 정보 지우기</string>
+	<string name="delete_moment">선택된 메모 지우기</string>
+
+	<!-- 메모관련문자 -->	
+	<string name="murmur">끄적이기</string>
+	<string name="save">저장하기</string>
+	<string name="input_content">내용을 입력하세요.</string>
+	<string name="input_picture">사진을 추가하세요.</string>
+	<string name="static_tag">태그</string>
+	<string name="input_tag">태크를 입력하세요.</string>
+	
+	<!-- 달력관련문자 -->
 	<string name="button_prev">이전</string>
 	<string name="button_next">다음</string>
 	<string name="text_sun">일</string>
@@ -24,4 +54,7 @@
 	<string name="text_thu">목</string>
 	<string name="text_fri">금</string>
 	<string name="text_sat">토</string>
+	
+	<string name="static_todayMarkTitle">오늘의 흔적</string>
+	<string name="static_todayPathTitle">오늘의 이동경로</string>
 </resources>

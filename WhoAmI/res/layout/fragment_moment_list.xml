@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:layout_marginTop="10dp"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        
+        <ImageView 
+            android:id="@+id/momentListPic_imageView"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:contentDescription="@string/input_picture"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+			android:layout_marginRight="7dp"
+            android:background="@drawable/lineframe_dash"
+            />
+   
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/momentListPic_imageView"
+            android:orientation="vertical">
+        
+			<TextView 
+			    android:layout_width="match_parent"
+			    android:layout_height="16dp"
+			    android:textStyle="bold|italic"
+			    android:text="@string/static_when"
+			    android:textSize="12sp"
+			    android:textColor="#333333"
+			    style="?android:listSeparatorTextViewStyle" />
+			
+			<TextView 
+			    android:id="@+id/momentListWhen_textView"
+			    android:layout_width="match_parent"
+			    android:layout_height="19dp"
+			    android:textStyle="bold"
+			    android:layout_marginLeft="16dp"
+			    android:layout_marginRight="16dp"
+			    android:textColor="#5D5D5D"
+			    style="?android:listSeparatorTextViewStyle"/>
+			<TextView 
+			    android:layout_width="match_parent"
+			    android:layout_height="16dp"
+			    android:textStyle="bold|italic"
+			    android:text="@string/static_where"
+			    android:textSize="12sp"
+			    android:textColor="#333333"
+			    android:layout_marginTop="10dp"
+			    style="?android:listSeparatorTextViewStyle"
+		    />
+			<TextView 
+			    android:id="@+id/momentListWhere_textView"
+			    android:layout_width="match_parent"
+			    android:layout_height="19dp"
+			    android:textStyle="bold"
+			    android:layout_marginLeft="16dp"
+			    android:layout_marginRight="16dp"
+			    android:textColor="#5D5D5D"
+			    style="?android:listSeparatorTextViewStyle"
+		    />
+			<TextView 
+			    android:layout_width="match_parent"
+			    android:layout_height="16dp"
+			    android:textStyle="bold|italic"
+			    android:text="@string/static_tag"
+			    android:textSize="12sp"
+			    android:textColor="#333333"
+			    android:layout_marginTop="10dp"
+			    style="?android:listSeparatorTextViewStyle"
+		    />
+			<TextView 
+			    android:id="@+id/momentListTag_textView"
+			    android:layout_width="match_parent"
+			    android:layout_height="19dp"
+			    android:textStyle="bold"
+			    android:layout_marginLeft="16dp"
+			    android:layout_marginRight="16dp"
+			    android:textColor="#5D5D5D"
+			    style="?android:listSeparatorTextViewStyle"
+		    />
+		</LinearLayout>
+	</RelativeLayout>
+	
+	<TextView 
+	    android:id="@+id/momentListContent_textView"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:textColor="#000000"
+	    android:background="@drawable/lineframe2"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="12dp"
+	    android:layout_marginRight="12dp"
+	    android:layout_weight="1"
+    />
+    
+</LinearLayout>
+	

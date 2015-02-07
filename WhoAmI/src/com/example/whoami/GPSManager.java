@@ -26,7 +26,8 @@ public class GPSManager implements LocationListener{
 	private static Context mContext;
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; //갱신거리 10미터
 	private static final long MIN_TIME_GPS_UPDATES = 1000 * 60 * 1;      //갱신시간 1분
-
+	private LocationManager mLm;
+	
 	private GPSManager(Context c){
 		mContext = c;
 	}
@@ -38,17 +39,25 @@ public class GPSManager implements LocationListener{
 		return sGPSManager;
 	}
 	
+	public void release(){
+		if(null == mLm)
+			mLm.removeUpdates(this);
+	}
+	
 	// 위치정보
 	// TODO: NETWORK_PROVIDER 왜 안되지?
 	public Location getLocation(){
 		Log.i("whoami", "getNetworkLocation start");
-		LocationManager lm = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager mLm = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
 		Location loc;
 		
-		if(null != (loc = getLocationToProvider(lm, LocationManager.GPS_PROVIDER))
-				|| null != (loc = getLocationToProvider(lm, LocationManager.NETWORK_PROVIDER))){
+		if(null != (loc = getLocationToProvider(mLm, LocationManager.GPS_PROVIDER))
+				|| null != (loc = getLocationToProvider(mLm, LocationManager.NETWORK_PROVIDER))){
+			// 위치만 구하고 LocationManager 바로 해제
+			mLm.removeUpdates(this);
 			return loc;
 		}
+		
 		return null;
 	}
 	
@@ -68,7 +77,13 @@ public class GPSManager implements LocationListener{
 	
 	// 주소
 	public String getAddressFromLocation(double loc, double lon) {
-		Locale.setDefault(Locale.KOREA); 
+		Locale.setDefault(Locale.KOREA);
+		
+		// 2015.02.07.12.58 앱 크래시 발생(NullPointerException)
+		// 널 검사 추가함
+		if(null == mContext)
+			return null;
+		
 		Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 
         List<Address> addressList = null ;

@@ -1,7 +1,5 @@
 package com.example.whoami;
 
-import java.util.UUID;
-
 import android.support.v4.app.Fragment;
 
 /**
@@ -12,7 +10,7 @@ public class MapActivity extends SingleFragmentActivity {
 	
 	@Override
 	protected Fragment createFragment() {
-		UUID id = (UUID)getIntent().getSerializableExtra(MapFragment.ARG_APP_ID);
-		return MapFragment.newInstance(id);
+		String usingDay = (String)getIntent().getSerializableExtra(MapFragment.ARG_APP_USING_DAY);
+		return MapFragment.newInstance(usingDay);
 	}
 }

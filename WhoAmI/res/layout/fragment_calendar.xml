@@ -1,96 +1,169 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.calendartest.MainActivity" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
-        <Button 
-            android:id="@+id/prev_button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="@string/button_prev"
-            android:textStyle="bold"
-            android:layout_weight = "1"/>
-        
-        <TextView 
-            android:id="@+id/todat_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight = "1"/>
-        
-        <Button 
-            android:id="@+id/next_button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="@string/button_next"
-            android:textStyle="bold"
-            android:layout_weight = "1"/>
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_sun"/>
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_mon"/>
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_tue"/>
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_wed"/>
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_thu"/>
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_fri"/>
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/text_sat"/>
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    tools:context="com.example.calendartest.MainActivity" >
+	
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal">
+	        
+	        <Button 
+	            android:id="@+id/prev_button"
+	            android:layout_width="wrap_content"
+	            android:layout_height="30dp"
+	            android:textSize="12sp"
+	            android:text="@string/button_prev"
+	            android:textStyle="bold"
+	            style="?android:attr/buttonBarButtonStyle"
+	            android:layout_weight = "0.1"/>
+	        
+	        <TextView 
+	            android:id="@+id/todat_textView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:layout_weight = "10"/>
+	        
+	        <Button 
+	            android:id="@+id/next_button"
+	            android:layout_width="wrap_content"
+	            android:layout_height="30dp"
+	            android:textSize="12sp"
+	            android:text="@string/button_next"
+	            android:textStyle="bold"
+	            style="?android:attr/buttonBarButtonStyle"
+	            android:layout_weight = "0.1"/>
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_vertical"
+	        android:orientation="horizontal">
+	        
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_sun"/>
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_mon"/>
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_tue"/>
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_wed"/>
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_thu"/>
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_fri"/>
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:text="@string/text_sat"/>
+		</LinearLayout>
+		
+	    <GridView
+	        android:id="@+id/calendar_gridView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:horizontalSpacing="-1px"
+	        android:verticalSpacing="-1px"
+	        android:stretchMode="columnWidth"
+	        android:numColumns="7"
+	      />
+	    
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="16dp"
+	        android:textSize="12sp"
+	        android:textStyle="bold|italic"
+	   		android:textColor="#333333"
+	   		android:text="@string/static_todayMarkTitle"
+		    android:layout_marginLeft="16dp"
+		    android:layout_marginRight="16dp"
+		    style="?android:listSeparatorTextViewStyle" />
+	    
+	    <TextView 
+		    android:id="@+id/todayMarkContent_textView"
+		    android:layout_width="match_parent"
+		    android:layout_height="27dp"
+		    android:textColor="#000077"
+		    android:background="@drawable/lineframe2"
+		    android:layout_marginTop="10dp"
+		    android:layout_marginLeft="12dp"
+		    android:layout_marginRight="12dp"
+		    android:layout_marginBottom="2dp"
+		    android:layout_weight="1"
+	    />
+	    
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="16dp"
+	        android:textSize="12sp"
+	        android:textStyle="bold|italic"
+	   		android:textColor="#333333"
+	   		android:text="@string/static_todayPathTitle"
+			android:layout_marginLeft="16dp"
+		    android:layout_marginRight="16dp"
+		    style="?android:listSeparatorTextViewStyle" />
+	    
+	    <TextView 
+		    android:id="@+id/todayParhList_textView"
+		    android:layout_width="match_parent"
+		    android:layout_height="27dp"
+		    android:textColor="#000077"
+		    android:background="@drawable/lineframe2"
+		    android:layout_marginTop="10dp"
+		    android:layout_marginLeft="12dp"
+		    android:layout_marginRight="12dp"
+		    android:layout_marginBottom="2dp"
+		    android:scrollbars="vertical"
+		    android:layout_weight="1"
+	    />
+		
 	</LinearLayout>
 	
-    <GridView
-        android:id="@+id/calendar_gridView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:horizontalSpacing="-1px"
-        android:verticalSpacing="-1px"
-        android:stretchMode="columnWidth"
-        android:numColumns="7"/>
+	<FrameLayout
+	    android:id="@+id/calendar_progressContainer"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:clickable="true">
+	    <ProgressBar 
+	        style="@android:style/Widget.ProgressBar.Small"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"/>
+	</FrameLayout>
 	
-</LinearLayout>
+</FrameLayout>

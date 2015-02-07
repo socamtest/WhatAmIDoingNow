@@ -35,7 +35,7 @@ public class AppListFragment extends ListFragment {
 	private PollService mPollService;
 	private static Context mContext;
 	private ArrayList<App> mApps;
-	private AppJSONSerializer mSerialize;
+	//private AppJSONSerializer mSerialize;
 	private String mUsingDay;
 	
 	public static AppListFragment newInstance(String usingDay){
@@ -71,7 +71,9 @@ public class AppListFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		Log.i(TAG, "AppListFragment onresume()");
-		AppList.get(mContext).saveApps(); //활성화 되기전에 파일에 저장
+		
+		// CalendarFragment 의 onResume() 에서 저장해주면(saveApps) 될듯하므로 일단 주석
+		// AppList.get(mContext).saveApps(); //활성화 되기전에 파일에 저장
 	}
 
 	@Override
@@ -84,9 +86,10 @@ public class AppListFragment extends ListFragment {
 		// 인자로 받은 날짜에 대한 리스트 생성
 		mUsingDay = (String)getArguments().getSerializable(ARG_APP_USING_DAY);
 		
-		mSerialize = new AppJSONSerializer(mContext, AppList.FILENAME);
+		//mSerialize = new AppJSONSerializer(mContext, AppList.FILENAME);
 		try{
-			mApps = mSerialize.loadAppsForDay(mUsingDay);
+			mApps = AppList.get(mContext).loadOndayApps(mUsingDay);
+			//mApps = mSerialize.loadOnedayApps(mUsingDay);
 			if(0 == mApps.size()){
 				Toast.makeText(getActivity(), "해당 날짜에 대한 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
 			}
@@ -106,10 +109,10 @@ public class AppListFragment extends ListFragment {
 		try{
 			App app = (App)(getListAdapter()).getItem(position);
 			
-			// 맵 프레그먼트 실행
+			/*// 맵 프레그먼트 실행
 			Intent i = new Intent(getActivity(), MapActivity.class);
 			i.putExtra(MapFragment.ARG_APP_ID, app.getUId());
-			startActivity(i);
+			startActivity(i);*/
 		}catch(Exception e){
 			Log.e(TAG, "AppListFragment onListItemClick() fail" + e.toString());
 		}

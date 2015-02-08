@@ -1,17 +1,18 @@
 package com.example.whoami;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -22,44 +23,47 @@ import com.google.android.gms.location.LocationServices;
 
 public class FusedLocation implements
 										LocationListener,
-										ConnectionCallbacks,
-										OnConnectionFailedListener{
+										GoogleApiClient.ConnectionCallbacks,
+										GoogleApiClient.OnConnectionFailedListener{
 	private static final String TAG = "whoai.fusedlocation";
 	private static final long ONE_MIN = 1000 * 60;
 	private static final long FIVE_MIN = ONE_MIN * 5;
-	private static final long INTERVAL = ONE_MIN;
-	private static final long FAST_INTERVAL = 1000 * 30;
+	private static final long INTERVAL = 1000 * 10; //reference에 1000 * 10 이 적당
+	private static final long FAST_INTERVAL = 5000; //reference에 1000 * 5 가 적당
 	private static final long REFRESH_TIME = FIVE_MIN;
 	private static final float MINIMUM_ACCURACY = 50.f;
+	private static final int REFRESH_REQUEST_CNT = 15; //requestLocationUpdates 호출 조건
+	private static final int REFRESH_REMOVE_CNT = 60; //removeLocationUpdates 호출 조건
 	
 	private GoogleApiClient mGoogleApiClient;
 	private LocationRequest mLocationRequest;
+	
+	private static String mLastUpdateTime;
+	private static boolean mCalledOnLocationChanged;
 	
 	private Context mContext;
 	private FusedLocationReceiver mReceiver;
 	private Location mLocation;
 	
+	private static FusedLocation sFusedLocation;
+	private static int sRequestCnt = 1;
+	
 	// 생성자
 	public FusedLocation(Context context, FusedLocationReceiver receiver){
 		this.mContext = context;
 		this.mReceiver = receiver;
+		this.mCalledOnLocationChanged = false;
 		
 		/**
 		 *  해당 시점에서 NullPointerException 발생하면서 앱 종료
 		 *  무슨 이유인지 모르겠음
 		 */
 		try{
-			mGoogleApiClient = new GoogleApiClient.Builder(mContext)
+			mGoogleApiClient = new GoogleApiClient.Builder(mContext.getApplicationContext())
 												.addApi(LocationServices.API)
 												.addConnectionCallbacks(this)
 												.addOnConnectionFailedListener(this)
 												.build();
-			
-			mLocationRequest = new LocationRequest();
-			mLocationRequest.setInterval(INTERVAL);
-			//mLocationRequest.setPriority(LocationRequest.PRIORITY_NO_POWER);
-			mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-			mLocationRequest.setFastestInterval(FAST_INTERVAL);
 			
 			if(null != mGoogleApiClient)
 				mGoogleApiClient.connect();
@@ -68,92 +72,89 @@ public class FusedLocation implements
 		}
 	}
 	
+	public static FusedLocation get(Context c, FusedLocationReceiver receiver){
+		if(null == sFusedLocation)
+			sFusedLocation = new FusedLocation(c, receiver);
+		return sFusedLocation;
+	}
+	
 	public Location getLocation(){
 		return this.mLocation;
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
 		Log.i(TAG, "FusedLocation onConnectionFailed() start");
 		
 	}
 
+	/**
+	 * PRIORITY_NO_POWER 패시브
+	 * PRIORITY_BALANCED_POWER_ACCURACY 와이파이, 셀
+	 * PRIORITY_HIGH_ACCURACY GPS, 와이파이
+	 * 
+	 * requestLocationUpdates 호출시 onLocationChanged 발생
+	 * 
+	 * TODO: 무조건 requestLocationUpdates 호출시 문제발생 확인(네트워크 사용량, 밧데리)
+	 */
+	
 	@Override
 	public void onConnected(Bundle arg0) {
 		Log.i(TAG, "FusedLocation onConnected() start");
 		
+		mLocationRequest = new LocationRequest();
+		mLocationRequest.setInterval(INTERVAL);
+		mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+		mLocationRequest.setFastestInterval(FAST_INTERVAL);
 		
-		// TODO: 여기서 위치가 널이 아닐경우 그냥 넘겨주므로 업데이트가 안일어나나???
-		// REFRESH_TIME을 줘서 업데이트 해줄 필요가 있을 듯???
-		//test
 		Location currLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+		
 		if(null != currLoc){
 			this.mLocation = currLoc;
-			// requestLocationUpdates 호출시 onLocationChanged 발생?
-			// TODO: 무조건 requestLocationUpdates 호출시 문제발생 확인(네트워크 사용량, 밧데리)
-			Log.i(TAG, "FusedLocation onConnected() requestLocationUpdates Call");
-			LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+			callRequestLocationUpdates(REFRESH_REQUEST_CNT, REFRESH_REMOVE_CNT);
 		}
 		
-		/*if(null != currLoc && REFRESH_TIME < currLoc.getTime()){
-			this.mLocation = currLoc;
-		}else{
-			LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-			
-			// requestLocationUpdates 이후 바로 removeLocationUpdates 해도 되나?
-			//LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, FusedLocation.this);
-			*//**
-			 * TODO: 해당 위치에서 OutOfMemory 발생(치명적 오류)
-			 * 일단 finalize(), disconnectGoogleApiClient() 함수에서 removeLocationUpdates 하도록 변경
-			 *//*
-			Executors.newScheduledThreadPool(1).schedule(new Runnable(){
-				public void run(){
-					LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, FusedLocation.this);
-				}
-			}, FIVE_MIN, TimeUnit.MILLISECONDS);
-		}*/
+		if(true == mCalledOnLocationChanged){
+			mCalledOnLocationChanged = false; // 초기화
+			Log.i(TAG, "FusedLocation onConnected() Called onLocationChanged");
+		}
 	}
 
 	@Override
 	public void onConnectionSuspended(int arg0) {
 		Log.i(TAG, "FusedLocation onConnectionSuspended() start");
-		
 	}
 
 	/**
-	 * 실내에서는 호출되지 않는다?
+	 * WIFI환경에서는 onLocationChanged 호출되지 않는다.
+	 * onLocationChange는 GPS와 연관(확인 필요)
 	 */
+	
 	@Override
 	public void onLocationChanged(Location location) {
+		// Toast.makeText(mContext, "onLocationChanged call", Toast.LENGTH_SHORT).show();
 		Log.i(TAG, "FusedLocation onLocationChanged() start");
-		// OnConnected에서 위치 변경
-		LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, FusedLocation.this);
+		mCalledOnLocationChanged = true;
 		
-		// getAccuracy() 현재위치기준으로 반지름 거리  
-		if(null == mLocation || mLocation.getAccuracy() > location.getAccuracy()){
-			Log.i(TAG, "FusedLocation onLocationChanged() mLocation(location) accurancy : " + mLocation.getAccuracy() + "(" + location.getAccuracy() + ")");
-			mLocation = location;
+		this.mLocation = location;
+		mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+		// TODO: FusedLocationReceiver
+		mReceiver.onLocationChanged();
+		
+		// 확인용 토스트
+		// 위치변화 확인용 메시지
+		/*if(null != mLocation && null != location){
+			Toast.makeText(mContext, "Previous Latitude : "+mLocation.getLatitude(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext,  "New Latitude : "+location.getLatitude(), Toast.LENGTH_SHORT).show();
 			
-			// TODO: FusedLocationReceiver
-			mReceiver.onLocationChanged();
-		}
+			Toast.makeText(mContext, "Previous Longitude : "+mLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext,  "New Longitude : "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+			
+			Toast.makeText(mContext, "Previous Accuracy : "+mLocation.getAccuracy(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext,  "New Accuracy : "+location.getAccuracy(), Toast.LENGTH_SHORT).show();
+		}*/
 	}
 
-	/*// finalize 정확한 용도를 모르겠다 일단 주석
-	// 소멸자?
-	@Override
-	protected void finalize() throws Throwable {
-		Log.i(TAG, "FusedLocation finalize() start");
-		super.finalize();
-		try{
-			if(null != mGoogleApiClient)
-				mGoogleApiClient.disconnect();
-		}catch(NullPointerException e){
-			Log.e(TAG, "FusedLocation finalize() NullPointerException : " + e.toString());
-		}
-	}*/
-	
 	// GoogleApiClient 해제
 	public void disconnectGoogleApiClient(){
 		try{
@@ -162,6 +163,34 @@ public class FusedLocation implements
 		}catch(NullPointerException e){
 			Log.e(TAG, "FusedLocation disconnectGoogleApiClient() NullPointerException : " + e.toString());
 		}
+	}
+	
+	// 위치정보 갱신요청 함수
+	public void callRequestLocationUpdates(int refreshCnt, int removeCnt){
+		Log.i(TAG, "FusedLocation callRequestLocationUpdates() sRequestCnt : " + sRequestCnt);
+		
+		if(0>refreshCnt || 0>removeCnt){
+			refreshCnt = 15;
+			removeCnt = 30;
+		}
+		
+		if(10000 == sRequestCnt)
+			sRequestCnt = 0;
+		
+		if(0 == sRequestCnt%refreshCnt){
+			if( null != mGoogleApiClient && true == mGoogleApiClient.isConnected() && null != mLocationRequest){
+				Log.i(TAG, "FusedLocation callRequestLocationUpdates [requestLocationUpdates call]");
+				LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+			}
+		}
+		
+		if(0 == sRequestCnt%removeCnt){
+			if( null != mGoogleApiClient && true == mGoogleApiClient.isConnected() && null != mLocationRequest){
+				Log.i(TAG, "FusedLocation callRequestLocationUpdates [removeLocationUpdates call]");
+				LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+			}
+		}
+		++sRequestCnt;
 	}
 	
 }

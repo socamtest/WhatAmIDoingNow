@@ -77,6 +77,9 @@ public class MomentActivity extends Activity{
 		
 		// 위치 구하기
 		Location loc = GPSManager.get(this).getLocation();
+		// 위치구하기 FusedLocatino 으로 변경
+		//Location loc = FusedLocation.get(this.getApplicationContext(), null).getLocation();
+		
 		String addr = null;
 		if(null != loc){
 			addr = GPSManager.get(this).getAddressFromLocation(loc.getLatitude(), loc.getLongitude());

@@ -6,11 +6,12 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -84,6 +85,11 @@ public class GPSManager implements LocationListener{
 		if(null == mContext)
 			return null;
 		
+		if(false == checkNetworkState()){
+			Toast. makeText( mContext, "getAddressFromLocation() fail, Check network status!", Toast.LENGTH_SHORT ).show();
+			 return "주소 인식 불가" ;
+		}
+		
 		Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 
         List<Address> addressList = null ;
@@ -143,5 +149,15 @@ public class GPSManager implements LocationListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+ private boolean checkNetworkState() {
+    ConnectivityManager connManager = (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo state_3g = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+    NetworkInfo state_wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+ 
+    return state_3g.isConnected() || state_wifi.isConnected();
+}
+
+ 
 }
 

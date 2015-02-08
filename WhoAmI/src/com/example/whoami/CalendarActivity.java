@@ -9,6 +9,10 @@ public class CalendarActivity extends SingleFragmentActivity {
 	@Override
 	protected Fragment createFragment() {
 		// TODO Auto-generated method stub
-		return new CalendarFragment();
+		try{
+			return new CalendarFragment();
+		}catch(NullPointerException e){
+			return new CalendarFragment();
+		}
 	}
 }
